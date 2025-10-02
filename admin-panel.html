@@ -7,5 +7,26 @@
 <body>
   <h2>Bienvenue sur le panneau admin</h2>
   <p>Ici tu pourras gérer les joueurs (ban, kick, etc.)</p>
+  <input type="text" id="playerName" placeholder="Nom du joueur">
+<button onclick="sendCommand('ban')">Ban</button>
+<button onclick="sendCommand('kick')">Kick</button>
+<button onclick="sendCommand('permaban')">Ban Perm</button>
+
+
+<script>
+function sendCommand(action) {
+  const player = document.getElementById("playerName").value;
+  fetch("https://roblox-api-server-uzun.onrender.com/command", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action, player })
+  })
+  .then(res => res.json())
+  .then(data => console.log("Réponse API :", data))
+  .catch(err => console.error("Erreur API :", err));
+}
+</script>
+
+
 </body>
 </html>
