@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 100px; }
+    input { margin: 5px; padding: 10px; width: 250px; }
+    button { padding: 10px 20px; }
+    #adminPanel { display: none; margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <h2>Connexion Admin</h2>
+  <input type="email" id="email" placeholder="Email admin"><br>
+  <input type="password" id="password" placeholder="Mot de passe"><br>
+  <button onclick="login()">Se connecter</button>
+
+  <div id="adminPanel">
+    <h3>Bienvenue, admin !</h3>
+    <p>Interface de gestion à venir...</p>
+  </div>
+
+</body>
+</html>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC3pbtO8XwD9xWLVDixxKvQXH3aNG4y5XE",
+    authDomain: "admin-roblox-panel.firebaseapp.com",
+    projectId: "admin-roblox-panel",
+    storageBucket: "admin-roblox-panel.firebasestorage.app",
+    messagingSenderId: "910370028979",
+    appId: "1:910370028979:web:0a63a7fe4fba3eebd59fc6",
+    measurementId: "G-3S18WMPZTB"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const admins = ["maximeporeye@gmail.com"]; // Remplace par tes vrais emails
+
+  document.querySelector("button").addEventListener("click", () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      if (admins.includes(user.email)) {
+        window.location.href = "admin-panel.html";
+      } else {
+        alert("Accès refusé : vous n'êtes pas admin.");
+      }
+    })
+    .catch(error => {
+      alert("Erreur : " + error.message);
+    });
+});
+</script>
+
+
